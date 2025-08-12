@@ -1,0 +1,29 @@
+# VCS
+.git
+.gitignore
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+
+# Env
+.venv/
+.env
+.env.*
+
+# Editor/OS
+.vscode/
+.idea/
+.DS_Store
+
+# Large or sample files not needed in image
+*.pdf
+*.yaml
+*.csv
+*.zip
+*.tar.gz

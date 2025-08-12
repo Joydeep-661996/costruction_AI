@@ -1,58 +1,48 @@
-# Construction Scheduler
+# BBS Tool (Automated Bar Bending Schedule)
 
-A simple program to generate construction schedules and Gantt charts based on task definitions and DPR (Daily Progress Report) updates.
+An API and minimal UI to extract, recognize, calculate, validate, and generate Bar Bending Schedules (BBS).
 
-## Features
+## Quickstart
 
-* Define project activities, durations, and dependencies in a YAML file.
-* Compute a baseline schedule using a forward-pass algorithm.
-* (Optional) Load site DPR updates (CSV/JSON) for future integration.
-* Export a Gantt chart as a PNG image.
+- Python 3.10+
+- Optional: Tesseract OCR binary for image OCR (`pytesseract` will try to use it). If not present, the OCR extractor will gracefully skip.
 
-## Requirements
-
-```
-pip install -r requirements.txt
+```bash
+python -m pip install -r requirements.txt
+uvicorn bbs_tool.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-## Usage
+Open `http://localhost:8000/` for the minimal UI.
 
+## Design
+
+- Backend: FastAPI
+- OCR: OpenCV preprocessing + optional `pytesseract`
+- Shape recognition: Heuristics + mappable shape descriptors
+- Calculations: Configurable IS 2502-like defaults (bend allowances, hooks, unit weight `d^2/162`)
+- Validation: Sanity checks for dimensions per diameter, minimum bend radius, required dims per shape
+- UI: Simple static HTML that calls the API
+
+## Assumptions and Notes
+
+- Dimensions in calculations are interpreted as centreline lengths unless explicitly provided as edge-to-edge with an accompanying offset. Centreline-based inputs are recommended for consistency.
+- Bend allowances and hook extensions are configurable via `bbs_tool/calc/is2502.py`. Defaults are reasonable but must be reviewed by your QA with reference to the relevant IS code and project specifications.
+- PDF table extraction is stubbed; image OCR and CSV upload are supported in this initial version.
+
+## API
+
+- POST `/api/extract` — Upload an image or CSV; returns structured items. For now, PDF support is limited.
+- POST `/api/calculate` — Provide items + config override; returns cutting lengths, weights, and warnings.
+- POST `/api/generate` — Upload and get calculated BBS plus CSV download payload.
+
+## Tests
+
+Basic sanity tests are included in `tests/`. You can run:
+
+```bash
+pytest -q
 ```
-python -m construction_scheduler sample_tasks.yaml --dpr sample_dpr.csv --output-image my_schedule.png
-```
 
-* `sample_tasks.yaml` – Activity definitions.
-* `--dpr` – Optional DPR file containing daily activity progress.
-* `--output-image` – Destination filename for the Gantt chart.
+## Disclaimer
 
-The script prints the planned schedule in tabular form and saves a Gantt chart image.
-
-## File Formats
-
-### Tasks YAML
-
-Each task entry requires:
-
-```
-- task_id: UNIQUE_ID
-  name: Descriptive Name
-  duration_days: <int>
-  dependencies: [LIST, OF, TASK_IDS]
-```
-
-### DPR CSV/JSON
-
-```
-date,activity,progress
-2025-08-12,EXCAVATION,80
-```
-
-* `date` – Date of update.
-* `activity` – Task ID matching `task_id` in YAML.
-* `progress` – Percent complete on that date.
-
-## Roadmap
-
-* Incorporate DPR progress to shift future start dates automatically.
-* Add critical path and slack time calculations.
-* Generate PDF reports.
+This tool provides a configurable implementation aligned with common interpretations of IS 2502 practices, but you must validate all outputs against your internal QA processes and the latest codes/specifications. Adjust configuration as required.
