@@ -1,0 +1,8 @@
+task_id,name,duration_days,dependencies,resource
+T1,Site clearance,5,,Civil
+T2,Excavation,10,T1,Civil
+T3,Footings,7,T2,Civil
+T4,Columns,10,T3,Structural
+T5,Slab,8,T4,Structural
+T6,MEP rough-in,12,T4;T5,MEP
+T7,Finishes,15,T6,Finishes

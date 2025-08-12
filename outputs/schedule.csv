@@ -1,0 +1,8 @@
+task_id,name,resource,duration_days,percent_complete,early_start,early_finish,late_start,late_finish,total_float_days,forecast_start,forecast_finish,is_critical
+T1,Site clearance,Civil,5,100.0,2025-01-01,2025-01-06,2025-01-01,2025-01-06,0,2025-01-01,2025-01-01,True
+T2,Excavation,Civil,10,50.0,2025-01-06,2025-01-16,2025-01-06,2025-01-16,0,2025-01-01,2025-01-06,True
+T3,Footings,Civil,7,20.0,2025-01-16,2025-01-23,2025-01-16,2025-01-23,0,2025-01-06,2025-01-12,True
+T4,Columns,Structural,10,0.0,2025-01-23,2025-02-02,2025-01-23,2025-02-02,0,2025-01-12,2025-01-22,True
+T5,Slab,Structural,8,0.0,2025-02-02,2025-02-10,2025-02-02,2025-02-10,0,2025-01-22,2025-01-30,True
+T6,MEP rough-in,MEP,12,0.0,2025-02-10,2025-02-22,2025-02-10,2025-02-22,0,2025-01-30,2025-02-11,True
+T7,Finishes,Finishes,15,0.0,2025-02-22,2025-03-09,2025-02-22,2025-03-09,0,2025-02-11,2025-02-26,True
