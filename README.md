@@ -1,58 +1,55 @@
-# Construction Scheduler
+# Construction Project Estimator
 
-A simple program to generate construction schedules and Gantt charts based on task definitions and DPR (Daily Progress Report) updates.
+Extracts Bill of Quantities (BOQ) from tender documents and construction drawings (PDF/images), matches items to a unit rate database, and produces total estimates and reports.
 
 ## Features
+- Parse PDFs (text and simple tables) and images (OCR optional) to extract BOQ-like lines
+- Match items to unit rates using keyword and unit rules
+- Compute totals, per-activity breakdown, and export CSV/Excel + HTML summary
+- Simple Streamlit UI for ad-hoc use
 
-* Define project activities, durations, and dependencies in a YAML file.
-* Compute a baseline schedule using a forward-pass algorithm.
-* (Optional) Load site DPR updates (CSV/JSON) for future integration.
-* Export a Gantt chart as a PNG image.
-
-## Requirements
-
-```
+## Install
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Usage
+Note: OCR for images uses `pytesseract` which requires the Tesseract binary installed on your system (optional).
 
+## Rates CSV Format
+Create a CSV with headers: `keyword,unit,unit_rate,activity` (activity optional). Examples:
+```csv
+keyword,unit,unit_rate,activity
+excavation,m3,12.5,Earthworks
+concrete,m3,95,Concrete Works
+rebar,kg,1.2,Reinforcement
+* ,m,5,General per meter
+* ,m2,8,General per sqm
 ```
-python -m construction_scheduler sample_tasks.yaml --dpr sample_dpr.csv --output-image my_schedule.png
+Rules:
+- `keyword`: substring matched against the description (case-insensitive). Use `*` for unit-only default.
+- `unit`: leave blank to ignore units; otherwise must match the BOQ unit.
+- `unit_rate`: numeric.
+- `activity`: optional label used for per-activity totals.
+
+## CLI Usage
+```bash
+python -m estimator.cli \
+  --inputs /path/to/docs /path/to/another/dir \
+  --rates /path/to/rates.csv \
+  --output-dir /path/to/output \
+  --contingency-pct 10 \
+  --tax-pct 5
 ```
+Outputs:
+- `estimate.csv` and (if supported) `estimate.xlsx`
+- `summary.html` with grand total and per-activity breakdown
 
-* `sample_tasks.yaml` – Activity definitions.
-* `--dpr` – Optional DPR file containing daily activity progress.
-* `--output-image` – Destination filename for the Gantt chart.
+## Optional Web App
+A Streamlit web UI is scaffolded in `webapp/app.py` but may be disabled on restricted environments. Focus on the CLI usage above.
 
-The script prints the planned schedule in tabular form and saves a Gantt chart image.
-
-## File Formats
-
-### Tasks YAML
-
-Each task entry requires:
-
-```
-- task_id: UNIQUE_ID
-  name: Descriptive Name
-  duration_days: <int>
-  dependencies: [LIST, OF, TASK_IDS]
-```
-
-### DPR CSV/JSON
-
-```
-date,activity,progress
-2025-08-12,EXCAVATION,80
-```
-
-* `date` – Date of update.
-* `activity` – Task ID matching `task_id` in YAML.
-* `progress` – Percent complete on that date.
-
-## Roadmap
-
-* Incorporate DPR progress to shift future start dates automatically.
-* Add critical path and slack time calculations.
-* Generate PDF reports.
+## Notes & Limitations
+- Parsing of complex BOQ tables and CAD drawings is heuristic and may require manual review.
+- For best results, provide reasonably clean PDFs with structured tables.
+- Extend `estimator/parsing.py` and your rates CSV to improve matching.
