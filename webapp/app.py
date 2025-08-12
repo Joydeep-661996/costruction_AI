@@ -1,0 +1,1 @@
+# Placeholder webapp removed for minimal environment compatibility.

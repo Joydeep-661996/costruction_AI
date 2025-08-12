@@ -1,0 +1,11 @@
+keyword,unit,unit_rate,activity
+excavation,m3,12.5,Earthworks
+backfill,m3,8.2,Earthworks
+concrete,m3,95,Concrete Works
+formwork,m2,15,Concrete Works
+rebar,kg,1.25,Reinforcement
+masonry,m2,35,Masonry
+plaster,m2,6.5,Finishes
+paint,m2,4.2,Finishes
+*,m,5,General
+*,m2,8,General
