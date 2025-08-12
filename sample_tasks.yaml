@@ -1,0 +1,19 @@
+- task_id: EXCAVATION
+  name: Excavation and Earthwork
+  duration_days: 10
+  dependencies: []
+- task_id: FOOTINGS
+  name: Footings
+  duration_days: 7
+  dependencies:
+    - EXCAVATION
+- task_id: COLUMNS
+  name: Columns
+  duration_days: 14
+  dependencies:
+    - FOOTINGS
+- task_id: SLAB
+  name: Slab Casting
+  duration_days: 10
+  dependencies:
+    - COLUMNS
