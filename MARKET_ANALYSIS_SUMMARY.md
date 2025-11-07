@@ -309,7 +309,7 @@ Overall Market         ███████████░░░░░░░░
 
 For detailed analysis, see:
 - **Full Report:** `MARKET_COMPETITOR_ANALYSIS.md` (905 lines, comprehensive analysis)
-- **Repository:** github.com/Joydeep-661996/costruction_AI
+- **Repository:** github.com/Joydeep-661996/construction_AI
 - **Last Updated:** November 2024
 
 ---

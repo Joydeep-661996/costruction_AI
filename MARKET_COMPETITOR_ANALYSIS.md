@@ -894,7 +894,7 @@ The Water Management Application for Jal Jeevan Mission and AMRUT represents a *
 ### D. Contact Information
 
 For questions or further information regarding this market analysis:
-- Repository: github.com/Joydeep-661996/costruction_AI
+- Repository: github.com/Joydeep-661996/construction_AI
 - Document Version: 1.0
 - Last Updated: November 2024
 
